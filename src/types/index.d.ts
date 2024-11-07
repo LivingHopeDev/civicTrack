@@ -18,17 +18,11 @@ export interface IUserLogin {
   email: string;
   password: string;
 }
-export interface IProduct {
+interface IGoogleUserInfo {
+  sub: string;
+  email: string;
   name: string;
-  description: string;
-  price: Decimal;
-  stockQuantity: Int;
-  threshold: Int;
-}
-export interface IVariation {
-  productId: string;
-  type: string;
-  value: string;
+  email_verified: boolean;
 }
 
 export interface IAuthService {

@@ -52,13 +52,11 @@ export const signUp = `
  *                         name:
  *                           type: string
  *                         email:
- *                           type: string
- *                         created_at:
- *                           type: string
+ *                           type: string                         
  *                         role:
  *                           type: string
- *                 access_token:
- *                   type: string
+ *                     access_token:
+ *                       type: string
  *       409:
  *         description: User already exists
  *       500:
@@ -151,21 +149,17 @@ export const login = `
  *                       type: object
  *                       properties:
  *                         id:
- *                           type: string
- *                         first_name:
- *                           type: string
- *                         last_name:
+ *                           type: string         
+ *                         name:
  *                           type: string
  *                         email:
- *                           type: string
- *                         created_at:
  *                           type: string
  *                         image_url:
  *                           type: string
  *                         role:
  *                           type: string
- *                 access_token:
- *                   type: string
+ *                     access_token:
+ *                       type: string
  *       400:
  *         description: Invalid email or password
  *       404:

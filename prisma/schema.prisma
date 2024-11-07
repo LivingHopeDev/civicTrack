@@ -8,17 +8,20 @@ datasource db {
 }
 
 enum userRole  {
-  ADMIN
-CITIZEN
-POLREP
+  admin
+citizen
+polRep
 
 }
 model User {
     id                       String     @id @unique @default(uuid())
     name                     String
     email                    String     @unique
-    password                 String
-    role                     userRole  @default(CITIZEN)
+    password                 String?
+    role                     userRole  @default(citizen)
+    is_verified               Boolean @default(false)
+   google_id                  String?
+   image_url                  String?
     createdAt                DateTime   @default(now())
     updatedAt                DateTime   @updatedAt
     otp                      Otp[]
