@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { routeNotFound, errorHandler } from "./middlewares";
 import config from "./config";
 import { serve, setup } from "swagger-ui-express";
-import swaggerSpec from "./swagger";
+import swaggerSpec from "./config/swaggerConfig";
 import log from "./utils/logger";
 
 const app: Express = express();

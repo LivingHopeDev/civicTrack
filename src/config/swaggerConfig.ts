@@ -17,11 +17,35 @@ const swaggerDefinition: SwaggerDefinition = {
       description: "Production Server",
     },
   ],
+  tags: [
+    {
+      name: "default",
+      description: "A list of all default routes",
+    },
+    {
+      name: "Authentication",
+      description: "A list of routes for Authentication",
+    },
+  ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
+  },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
 };
 
 const options: Options = {
   swaggerDefinition,
-  apis: ["./src/routes/*.ts"],
+  apis: ["./src/docs/**/*.ts"],
 };
 const swaggerDoc = swaggerJsdoc(options);
 export default swaggerDoc;
