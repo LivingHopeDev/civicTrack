@@ -31,7 +31,6 @@ export class OtpService {
       where: { token },
       include: { user: true },
     });
-    console.log("otp", otp);
     if (!otp) {
       throw new ResourceNotFound("Invalid OTP");
     }
