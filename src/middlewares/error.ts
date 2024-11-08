@@ -70,9 +70,9 @@ const errorHandler = (
   err: HttpError | any,
   _req: Request,
   res: Response,
-  _next: NextFunction,
+  _next: NextFunction
 ) => {
-  log.error(err)
+  log.error(err);
   const success = err.success !== undefined ? err.success : false;
   const status_code = err.status_code || 500;
   const message = err.message || "An unexpected error occurred";

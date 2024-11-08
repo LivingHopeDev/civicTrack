@@ -15,35 +15,39 @@ export const authMiddleware = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
+      res.status(401).json({
         status_code: "401",
         message: "Invalid token",
       });
+      return;
     }
 
     const token = authHeader.split(" ")[1];
     if (!token) {
-      return res.status(401).json({
+      res.status(401).json({
         status_code: "401",
         message: "Invalid token",
       });
+      return;
     }
 
     jwt.verify(token, config.TOKEN_SECRET!, async (err, decoded: any) => {
       if (err) {
-        return res.status(401).json({
+        res.status(401).json({
           status_code: "401",
           message: "Invalid token",
         });
+        return;
       }
       const user = await prismaClient.user.findFirst({
         where: { id: decoded["userId"] as string },
       });
       if (!user) {
-        return res.status(401).json({
+        res.status(401).json({
           status_code: "401",
           message: "Invalid token",
         });
+        return;
       }
       req.user = user;
       next();
@@ -53,18 +57,19 @@ export const authMiddleware = async (
     throw new ServerError("INTERNAL_SERVER_ERROR");
   }
 };
-export const adminMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const user = req.user;
-  if (user?.role === "ADMIN") {
-    next();
-  } else {
-    return res.status(403).json({
-      status_code: "403",
-      message: "Unauthorized",
-    });
-  }
-};
+// export const adminMiddleware = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   const user = req.user;
+//   if (user?.role === "ADMIN") {
+//     next();
+//   } else {
+//      res.status(403).json({
+//       status_code: "403",
+//       message: "Unauthorized",
+//     });
+// return;
+//   }
+// };
