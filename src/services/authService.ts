@@ -2,7 +2,12 @@ import { IUserSignUp, IAuthService, IUserLogin } from "../types";
 import { User } from "@prisma/client";
 import { prismaClient } from "..";
 import { hashPassword, comparePassword, generateAccessToken } from "../utils";
-import { BadRequest, Conflict, ResourceNotFound } from "../middlewares/error";
+import {
+  BadRequest,
+  Conflict,
+  ResourceNotFound,
+  Unauthorised,
+} from "../middlewares/error";
 import { OtpService, EmailService } from ".";
 import { Sendmail } from "../utils/sendMail";
 import config from "../config";
@@ -31,8 +36,9 @@ export class AuthService implements IAuthService {
     });
     const access_token = await generateAccessToken(newUser.id);
     const otp = await this.otpService.createOtp(newUser.id);
+    const first_name = name.split(" ")[0];
     const { emailBody, emailText } = await this.emailService.otpEmailTemplate(
-      name,
+      first_name,
       otp!.token
     );
 
@@ -55,7 +61,6 @@ export class AuthService implements IAuthService {
       message:
         "User Created Successfully. Kindly check your mail for your verification token",
     };
-    // "User Created Successfully. Kindly check your mail for your verification token",
   }
 
   public async login(payload: IUserLogin): Promise<{
@@ -67,6 +72,11 @@ export class AuthService implements IAuthService {
     const user = await prismaClient.user.findFirst({ where: { email } });
     if (!user) {
       throw new ResourceNotFound("User not found");
+    }
+    if (!user.is_verified) {
+      throw new Unauthorised(
+        "Email verification required. Please verify your email to proceed."
+      );
     }
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
