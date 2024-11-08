@@ -30,19 +30,19 @@ export class AuthService implements IAuthService {
       },
     });
     const access_token = await generateAccessToken(newUser.id);
-    // const otp = await this.otpService.createOtp(newUser.id);
-    // const { emailBody, emailText } = await this.emailService.otpEmailTemplate(
-    //   first_name,
-    //   otp!.token
-    // );
+    const otp = await this.otpService.createOtp(newUser.id);
+    const { emailBody, emailText } = await this.emailService.otpEmailTemplate(
+      name,
+      otp!.token
+    );
 
-    // await Sendmail({
-    //   from: `hopedigital2021@outlook.com`,
-    //   to: email,
-    //   subject: "OTP VERIFICATION",
-    //   text: emailText,
-    //   html: emailBody,
-    // });
+    await Sendmail({
+      from: `${config.GOOGLE_SENDER_MAIL}`,
+      to: email,
+      subject: "OTP VERIFICATION",
+      text: emailText,
+      html: emailBody,
+    });
     const userResponse = {
       id: newUser.id,
       name: newUser.name,
@@ -52,7 +52,8 @@ export class AuthService implements IAuthService {
     return {
       user: userResponse,
       access_token,
-      message: "User Created Successfully.",
+      message:
+        "User Created Successfully. Kindly check your mail for your verification token",
     };
     // "User Created Successfully. Kindly check your mail for your verification token",
   }

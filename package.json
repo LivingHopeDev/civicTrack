@@ -1,7 +1,7 @@
 {
-  "name": "ts-express-starter",
+  "name": "civic-track",
   "version": "1.0.0",
-  "description": "This is a starter file for an express with prisma client as the ORM.",
+  "description": "",
   "main": "index.ts",
   "author": "Adetayo Adewobi",
   "license": "MIT",
