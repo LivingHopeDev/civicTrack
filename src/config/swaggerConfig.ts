@@ -3,7 +3,7 @@ const port = process.env.PORT;
 const swaggerDefinition: SwaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "{PRODUCT NAME} API",
+    title: "CivicTrack API",
     version: "1.0.0",
     description: "API Documentation",
   },

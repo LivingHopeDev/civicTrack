@@ -79,12 +79,9 @@ export const verifyOtp = `
  *             type: object
  *             properties:
  *               token:
- *                 type: string
- *               email:
- *                 type: string
+ *                 type: string 
  *             required:
  *               - token
- *               - email
  *     responses:
  *       200:
  *         description: OTP verified successfully
@@ -166,5 +163,238 @@ export const login = `
  *         description: User not found
  *       500:
  *         description: Some server error
+ */
+`;
+
+export const resendOtp = `
+/**
+ * @swagger
+ * /api/v1/auth/resend-otp:
+ *   post:
+ *     summary: Resend OTP for Email Verification
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *
+ *     responses:
+ *       200:
+ *         description: OTP successfully sent to the email address
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: OTP sent successfully
+ *       400:
+ *         description: Bad Request - Missing or invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Bad Request
+ *       404:
+ *         description: User not found or email already verified
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: User not found
+ *       422:
+ *         description: Validation Error - Invalid email format or other errors
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid email format
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+`;
+
+export const forgetPassword = `
+/**
+ * @swagger
+ * /api/v1/auth/forget-password:
+ *   post:
+ *     summary: Send an OTP for password reset
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *
+ *     responses:
+ *       200:
+ *         description: OTP successfully sent to the email address for password reset
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: OTP sent successfully
+ *       400:
+ *         description: Bad Request - Invalid email format or missing field
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Bad Request
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: User not found
+ *       422:
+ *         description: Validation Error - Invalid email format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid email format
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+`;
+
+export const resetPassword = `
+/**
+ * @swagger
+ * /api/v1/auth/reset-password:
+ *   post:
+ *     summary: Reset user password with OTP
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 example: "123456"
+ *                 description: OTP token sent to user's email
+ *               new_password:
+ *                 type: string
+ *                 example: "newStrongPassword123"
+ *                 description: The new password for the user
+ *               confirm_password:
+ *                 type: string
+ *                 example: "newStrongPassword123"
+ *                 description: The password confirmation to ensure no mismatch
+ *     responses:
+ *       200:
+ *         description: Password has been successfully reset
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Password reset successfully."
+ *       400:
+ *         description: Bad Request - Passwords do not match
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Password doesn't match"
+ *       404:
+ *         description: OTP not found or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid OTP"
+ *       410:
+ *         description: OTP has expired
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "OTP has expired"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 `;
