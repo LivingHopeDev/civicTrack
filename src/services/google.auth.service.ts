@@ -8,7 +8,7 @@ export const GoogleUserInfo = async (
   message: string;
   user: Partial<User>;
 }> => {
-  const { sub: google_id, email, name, email_verified } = userInfo;
+  const { sub: google_id, email, name, email_verified, image_url } = userInfo;
   let user: User;
   user = await prismaClient.user.findUnique({
     where: { email },
@@ -20,7 +20,7 @@ export const GoogleUserInfo = async (
         email,
         is_verified: email_verified,
         google_id,
-        // image_url: userInfo.picture
+        image_url,
       },
     });
     return {

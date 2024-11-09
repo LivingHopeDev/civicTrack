@@ -23,6 +23,7 @@ interface IGoogleUserInfo {
   email: string;
   name: string;
   email_verified: boolean;
+  image_url: string;
 }
 
 export interface IAuthService {

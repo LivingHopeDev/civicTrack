@@ -13,7 +13,7 @@ const swaggerDefinition: SwaggerDefinition = {
       description: "Local Development Server",
     },
     {
-      url: `https://`,
+      url: `https://civictrack.onrender.com/api/v1`,
       description: "Production Server",
     },
   ],

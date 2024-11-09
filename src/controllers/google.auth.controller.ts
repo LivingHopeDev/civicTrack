@@ -10,13 +10,13 @@ export const googleAuthCall = asyncHandler(
     const { id_token } = req.body;
 
     const payload = await verifyGoogleToken(id_token);
-
+    console.log("here in controller");
     const userInfo: IGoogleUserInfo = {
       sub: payload.sub,
       email: payload.email,
       name: payload.name,
       email_verified: payload.email_verified,
-      // image_url: payload,
+      image_url: payload.picture,
     };
     const { user, message } = await GoogleUserInfo(userInfo);
     const access_token = await generateAccessToken(user.id);

@@ -84,6 +84,11 @@ export class AuthService implements IAuthService {
         "Email verification required. Please verify your email to proceed."
       );
     }
+    if (user.google_id) {
+      throw new Unauthorised(
+        "Please log in using Google auth to access your account."
+      );
+    }
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
       throw new BadRequest("Authentication failed");
