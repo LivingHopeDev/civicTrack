@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authRoute = void 0;
+const schema_1 = require("../schema");
+const middlewares_1 = require("../middlewares");
+const controllers_1 = require("../controllers");
+const express_1 = require("express");
+const authRoute = (0, express_1.Router)();
+exports.authRoute = authRoute;
+authRoute.post("/google", controllers_1.googleAuthCall);
+authRoute.post("/login", (0, middlewares_1.validateData)(schema_1.loginSchema), controllers_1.login);
+authRoute.post("/register", (0, middlewares_1.validateData)(schema_1.SignUpSchema), controllers_1.signup);
+authRoute.post("/verify-otp", (0, middlewares_1.validateData)(schema_1.otpSchema), controllers_1.verifyOtp);
+authRoute.post("/resend-otp", (0, middlewares_1.validateData)(schema_1.resendOtpSchema), controllers_1.resendOtp);
+authRoute.post("/forget-password", (0, middlewares_1.validateData)(schema_1.resendOtpSchema), controllers_1.forgetPassword);
+authRoute.post("/reset-password", (0, middlewares_1.validateData)(schema_1.resetPasswordSchema), controllers_1.resetPassword);
