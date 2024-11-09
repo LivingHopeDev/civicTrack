@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoogleUserInfo = void 0;
 const __1 = require("..");
 const GoogleUserInfo = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {
-    const { sub: google_id, email, name, email_verified } = userInfo;
+    const { sub: google_id, email, name, email_verified, image_url } = userInfo;
     let user;
     user = yield __1.prismaClient.user.findUnique({
         where: { email },
@@ -24,7 +24,7 @@ const GoogleUserInfo = (userInfo) => __awaiter(void 0, void 0, void 0, function*
                 email,
                 is_verified: email_verified,
                 google_id,
-                // image_url: userInfo.picture
+                image_url,
             },
         });
         return {

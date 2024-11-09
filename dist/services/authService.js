@@ -107,6 +107,9 @@ class AuthService {
             if (!user.is_verified) {
                 throw new error_2.Unauthorised("Email verification required. Please verify your email to proceed.");
             }
+            if (user.google_id) {
+                throw new error_2.Unauthorised("Please log in using Google auth to access your account.");
+            }
             const isPasswordValid = yield (0, utils_1.comparePassword)(password, user.password);
             if (!isPasswordValid) {
                 throw new error_2.BadRequest("Authentication failed");

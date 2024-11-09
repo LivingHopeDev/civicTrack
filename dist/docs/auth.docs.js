@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.forgetPassword = exports.resendOtp = exports.login = exports.verifyOtp = exports.signUp = void 0;
+exports.googleAuth = exports.resetPassword = exports.forgetPassword = exports.resendOtp = exports.login = exports.verifyOtp = exports.signUp = void 0;
 exports.signUp = `
 /**
  * @swagger
@@ -384,6 +384,81 @@ exports.resetPassword = `
  *                 error:
  *                   type: string
  *                   example: "OTP has expired"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+`;
+exports.googleAuth = `
+/**
+ * @swagger
+ * /api/v1/auth/google:
+ *   post:
+ *     summary: Google authentication for login or registration
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id_token:
+ *                 type: string
+ *                 example: "ya29.a0AfH6SMDk7w7VSeAImc5bG1DCgsq0zx5d4vBQ9txVJxVJkL3CwT6kdy0jmR2krvPq9QgFf9PT7I2dZHgIi3BdT2oQkrXfN7p0YWzYoF8QX5J_GhmLvx4Fk7TkcM2zvMFCJ2DgXYzQXUtv9FieUS8gQFduGp_2r0ek8yGeEg"
+ *                 description: The Google ID token received after Google authentication.
+ *     responses:
+ *       201:
+ *         description: User authenticated successfully. User is either logged in or newly registered.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 201
+ *                 message:
+ *                   type: string
+ *                   example: "User Created Successfully" 
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     access_token:
+ *                       type: string
+ *                       description: A JWT access token for the authenticated user
+ *                     user:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                         name:
+ *                           type: string
+ *                         email:
+ *                           type: string
+ *                         image_url:
+ *                           type: string
+ *                         google_id:
+ *                           type: string
+ *                         is_verified:
+ *                           type: boolean
+ *       400:
+ *         description: Invalid ID token or missing required fields
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid Google ID Token"
  *       500:
  *         description: Internal server error
  *         content:

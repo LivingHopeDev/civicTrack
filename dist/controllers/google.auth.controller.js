@@ -20,12 +20,13 @@ const utils_1 = require("../utils");
 exports.googleAuthCall = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_token } = req.body;
     const payload = yield (0, google_config_1.verifyGoogleToken)(id_token);
+    console.log("here in controller");
     const userInfo = {
         sub: payload.sub,
         email: payload.email,
         name: payload.name,
         email_verified: payload.email_verified,
-        // image_url: payload,
+        image_url: payload.picture,
     };
     const { user, message } = yield (0, google_auth_service_1.GoogleUserInfo)(userInfo);
     const access_token = yield (0, utils_1.generateAccessToken)(user.id);
