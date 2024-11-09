@@ -412,7 +412,6 @@ exports.googleAuth = `
  *             properties:
  *               id_token:
  *                 type: string
- *                 example: "ya29.a0AfH6SMDk7w7VSeAImc5bG1DCgsq0zx5d4vBQ9txVJxVJkL3CwT6kdy0jmR2krvPq9QgFf9PT7I2dZHgIi3BdT2oQkrXfN7p0YWzYoF8QX5J_GhmLvx4Fk7TkcM2zvMFCJ2DgXYzQXUtv9FieUS8gQFduGp_2r0ek8yGeEg"
  *                 description: The Google ID token received after Google authentication.
  *     responses:
  *       201:
