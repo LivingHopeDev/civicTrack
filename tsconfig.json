@@ -4,6 +4,7 @@
     "rootDir": "./src",
     "module": "commonjs",
     "target": "es6",
+    "types": ["@prisma/client"],
     "esModuleInterop": true,
     "skipLibCheck": true
   },
