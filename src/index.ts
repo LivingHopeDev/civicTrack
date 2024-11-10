@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, urlencoded } from "express";
 import rootRouter from "./routes";
 import { PrismaClient } from "@prisma/client";
 import { routeNotFound, errorHandler } from "./middlewares";
@@ -10,6 +10,7 @@ import log from "./utils/logger";
 const app: Express = express();
 
 app.use(express.json());
+app.use(urlencoded({ extended: false }));
 app.use("/api/v1", rootRouter);
 app.use("/api/docs", serve, setup(swaggerSpec));
 app.get("/api/v1", (req, res) => {

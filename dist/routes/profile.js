@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.profileRoute = void 0;
+const express_1 = require("express");
+const controllers_1 = require("../controllers");
+const middlewares_1 = require("../middlewares");
+const multer_1 = require("../utils/multer");
+const profileRoute = (0, express_1.Router)();
+exports.profileRoute = profileRoute;
+profileRoute.post("/upload", multer_1.uploadFile, middlewares_1.authMiddleware, controllers_1.uploadProfileImage);

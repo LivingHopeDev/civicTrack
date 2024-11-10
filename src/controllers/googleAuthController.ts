@@ -2,7 +2,7 @@ import { verifyGoogleToken } from "../config/google.config";
 import asyncHandler from "../middlewares/asyncHandler";
 import { Request, Response } from "express";
 import { IGoogleUserInfo } from "../types";
-import { GoogleUserInfo } from "../services/google.auth.service";
+import { GoogleUserInfo } from "../services/googleAuthService";
 import { generateAccessToken } from "../utils";
 
 export const googleAuthCall = asyncHandler(

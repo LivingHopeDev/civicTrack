@@ -1,2 +1,3 @@
 export * from "./auth";
-export * from "./google.auth.controller";
+export * from "./googleAuthController";
+export * from "./profileController";
