@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config";
-import { User } from "@prisma/client";
+import { User, userRole } from "@prisma/client";
 import log from "../utils/logger";
 import { ServerError } from "./error";
 import { prismaClient } from "..";
@@ -57,19 +57,29 @@ export const authMiddleware = async (
     throw new ServerError("INTERNAL_SERVER_ERROR");
   }
 };
-// export const adminMiddleware = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const user = req.user;
-//   if (user?.role === "ADMIN") {
-//     next();
-//   } else {
-//      res.status(403).json({
-//       status_code: "403",
-//       message: "Unauthorized",
-//     });
-// return;
-//   }
-// };
+
+export const roleMiddleware = (allowedRoles: userRole[]) => {
+  return (
+    req: Request & { user?: User },
+    res: Response,
+    next: NextFunction
+  ) => {
+    const user = req.user;
+
+    if (!user) {
+      return res.status(401).json({
+        status_code: "401",
+        message: "Authentication required",
+      });
+    }
+
+    if (!allowedRoles.includes(user.role as userRole)) {
+      return res.status(403).json({
+        status_code: "403",
+        message: "Unauthorized",
+      });
+    }
+
+    next();
+  };
+};

@@ -1,0 +1,122 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id String [pk]
+  name String [not null]
+  email String [unique, not null]
+  password String
+  role userRole [not null, default: 'citizen']
+  is_verified Boolean [not null, default: false]
+  google_id String
+  image_url String
+  state String
+  local_gov String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  otp otps [not null]
+  socialMedia socialMedias [not null]
+  politicalProfile politicalProfiles [not null]
+  contactInfo contactInfos
+}
+
+Table otps {
+  id String [pk]
+  token String [not null]
+  expiry DateTime [not null]
+  userId String [not null]
+  user users [not null]
+}
+
+Table politicalProfiles {
+  id String [pk]
+  userId String [not null]
+  user users [not null]
+  socialMedia socialMedias [not null]
+  profession professions [not null]
+  education educations [not null]
+  politicalParty politicalParties [not null]
+  previousRole previousRoles [not null]
+}
+
+Table socialMedias {
+  id String [pk]
+  userId String
+  user users
+  facebookUrl String
+  xUrl String
+  linkedinUrl String
+  instagramUrl String
+  politicalProfileId String
+  politicalProfile politicalProfiles
+}
+
+Table contactInfos {
+  id String [pk]
+  userId String [unique, not null]
+  email String [not null]
+  hotline String [not null]
+  user users [not null]
+}
+
+Table professions {
+  id String [pk]
+  politicalProfileId String [not null]
+  position String [not null]
+  term String [not null]
+  startDate String [not null]
+  endDate String [not null]
+  politicalProfile politicalProfiles [not null]
+}
+
+Table educations {
+  id String [pk]
+  politicalProfileId String [not null]
+  institution String [not null]
+  city String [not null]
+  startDate DateTime [not null]
+  endDate DateTime [not null]
+  politicalProfile politicalProfiles [not null]
+}
+
+Table previousRoles {
+  id String [pk]
+  politicalProfileId String [not null]
+  position String [not null]
+  startDate DateTime [not null]
+  endDate DateTime [not null]
+  politicalProfile politicalProfiles [not null]
+}
+
+Table politicalParties {
+  id String [pk]
+  politicalProfileId String [not null]
+  partyName String [not null]
+  yearJoined Int [not null]
+  politicalProfile politicalProfiles [not null]
+}
+
+Enum userRole {
+  admin
+  citizen
+  polRep
+}
+
+Ref: otps.userId > users.id [delete: Cascade]
+
+Ref: politicalProfiles.userId > users.id [delete: Cascade]
+
+Ref: socialMedias.userId > users.id [delete: Cascade]
+
+Ref: socialMedias.politicalProfileId > politicalProfiles.id [delete: Cascade]
+
+Ref: contactInfos.userId - users.id
+
+Ref: professions.politicalProfileId > politicalProfiles.id [delete: Cascade]
+
+Ref: educations.politicalProfileId > politicalProfiles.id [delete: Cascade]
+
+Ref: previousRoles.politicalProfileId > politicalProfiles.id [delete: Cascade]
+
+Ref: politicalParties.politicalProfileId > politicalProfiles.id [delete: Cascade]
