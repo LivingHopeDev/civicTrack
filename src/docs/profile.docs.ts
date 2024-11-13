@@ -63,7 +63,7 @@ export const uploadProfileImage = `
 export const createProfileSwagger = `
 /**
  * @swagger
- * /api/v1/profile/create:
+ * /api/v1/profile:
  *   post:
  *     summary: Create a profile for the authenticated user (Citizen or Political Representative)
  *     tags: [Profile]

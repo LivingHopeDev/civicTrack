@@ -35,9 +35,11 @@ const config_1 = __importDefault(require("./config"));
 const swagger_ui_express_1 = require("swagger-ui-express");
 const swaggerConfig_1 = __importDefault(require("./config/swaggerConfig"));
 const logger_1 = __importDefault(require("./utils/logger"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, express_1.urlencoded)({ extended: false }));
+app.use((0, cors_1.default)());
 app.use("/api/v1", routes_1.default);
 app.use("/api/docs", swagger_ui_express_1.serve, (0, swagger_ui_express_1.setup)(swaggerConfig_1.default));
 app.get("/api/v1", (req, res) => {
