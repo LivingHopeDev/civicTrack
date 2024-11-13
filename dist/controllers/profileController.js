@@ -30,8 +30,8 @@ exports.createProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void
         res.status(201).json(message);
     }
     else if (role === "polRep") {
-        const profile = yield profileService.createPolRepProfile(userId, req.body);
-        res.status(201).json({ message: "Profile created" });
+        const message = yield profileService.createPolRepProfile(userId, req.body);
+        res.status(201).json(message);
     }
     else {
         res.status(400).json({ message: "Invalid role for profile creation" });

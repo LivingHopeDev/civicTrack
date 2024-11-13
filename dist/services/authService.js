@@ -112,7 +112,7 @@ class AuthService {
             }
             const isPasswordValid = yield (0, utils_1.comparePassword)(password, user.password);
             if (!isPasswordValid) {
-                throw new error_2.BadRequest("Authentication failed");
+                throw new error_2.BadRequest("Incorrect password or email");
             }
             const access_token = yield (0, utils_1.generateAccessToken)(user.id);
             const userResponse = {
