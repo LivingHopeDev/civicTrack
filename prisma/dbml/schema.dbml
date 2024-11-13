@@ -29,27 +29,24 @@ Table otps {
   user users [not null]
 }
 
-Table politicalProfiles {
+Table socialMedias {
   id String [pk]
   userId String [not null]
   user users [not null]
-  socialMedia socialMedias [not null]
-  profession professions [not null]
-  education educations [not null]
-  politicalParty politicalParties [not null]
-  previousRole previousRoles [not null]
-}
-
-Table socialMedias {
-  id String [pk]
-  userId String
-  user users
   facebookUrl String
   xUrl String
   linkedinUrl String
   instagramUrl String
-  politicalProfileId String
-  politicalProfile politicalProfiles
+}
+
+Table politicalProfiles {
+  id String [pk]
+  userId String [not null]
+  user users [not null]
+  profession professions [not null]
+  education educations [not null]
+  politicalParty politicalParties [not null]
+  previousRole previousRoles [not null]
 }
 
 Table contactInfos {
@@ -105,11 +102,9 @@ Enum userRole {
 
 Ref: otps.userId > users.id [delete: Cascade]
 
-Ref: politicalProfiles.userId > users.id [delete: Cascade]
-
 Ref: socialMedias.userId > users.id [delete: Cascade]
 
-Ref: socialMedias.politicalProfileId > politicalProfiles.id [delete: Cascade]
+Ref: politicalProfiles.userId > users.id [delete: Cascade]
 
 Ref: contactInfos.userId - users.id
 

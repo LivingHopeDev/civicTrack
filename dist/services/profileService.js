@@ -45,9 +45,10 @@ class ProfileService {
             return { message: "Profile image updated" };
         });
     }
-    createCitizenProfile(userId, payload) {
+    createProfile(userId, payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, state, local_gov, xUrl, linkedinUrl, instagramUrl, facebookUrl, } = payload;
+            // Update the user details
             yield __1.prismaClient.user.update({
                 where: { id: userId },
                 data: {
@@ -57,17 +58,48 @@ class ProfileService {
                     local_gov,
                 },
             });
-            yield __1.prismaClient.socialMedia.create({
-                data: {
-                    userId,
-                    facebookUrl,
-                    xUrl,
-                    linkedinUrl,
-                    instagramUrl,
-                },
-            });
+            // Build an array of updated social media data
+            const socialMediaData = [
+                { field: "facebookUrl", value: facebookUrl },
+                { field: "xUrl", value: xUrl },
+                { field: "linkedinUrl", value: linkedinUrl },
+                { field: "instagramUrl", value: instagramUrl },
+            ].filter((item) => item.value); // Filter out null or undefined values
+            if (socialMediaData.length > 0) {
+                const existingSocialMedia = yield __1.prismaClient.socialMedia.findMany({
+                    where: { userId },
+                });
+                // Prepare data for updates and creations
+                const updateData = [];
+                const createData = [];
+                socialMediaData.forEach(({ field, value }) => {
+                    const existing = existingSocialMedia.find((sm) => sm[field] !== null);
+                    if (existing) {
+                        updateData.push({
+                            where: { id: existing.id },
+                            data: { [field]: value },
+                        });
+                    }
+                    else {
+                        createData.push({ userId, [field]: value });
+                    }
+                });
+                // Perform updates individually
+                for (const { where, data } of updateData) {
+                    yield __1.prismaClient.socialMedia.update({
+                        where,
+                        data,
+                    });
+                }
+                // Perform bulk create
+                if (createData.length > 0) {
+                    yield __1.prismaClient.socialMedia.createMany({
+                        data: createData,
+                    });
+                }
+            }
             return {
-                message: "Profile created",
+                message: "Profile saved",
             };
         });
     }

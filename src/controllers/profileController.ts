@@ -18,20 +18,7 @@ export const createProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = req.user.id;
     const role = req.user.role;
-    if (role === "citizen") {
-      const message = await profileService.createCitizenProfile(
-        userId,
-        req.body
-      );
-      res.status(201).json(message);
-    } else if (role === "polRep") {
-      const message = await profileService.createPolRepProfile(
-        userId,
-        req.body
-      );
-      res.status(201).json(message);
-    } else {
-      res.status(400).json({ message: "Invalid role for profile creation" });
-    }
+    const message = await profileService.createProfile(userId, req.body);
+    res.status(201).json(message);
   }
 );

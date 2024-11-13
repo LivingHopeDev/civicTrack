@@ -30,7 +30,7 @@ model User {
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
     otp         Otp[]    
-    socialMedia SocialMedia[] // for citizens
+    socialMedia SocialMedia[] 
     politicalProfile  PoliticalProfile[] // for pol rep
     contactInfo ContactInfo? // Optional for political representatives
 
@@ -48,11 +48,25 @@ model Otp {
 @@map("otps")
 }
 
+model SocialMedia {
+  id         String  @id @unique @default(uuid())
+  userId     String 
+  user       User   @relation(fields: [userId],references: [id],onDelete: Cascade)
+  facebookUrl        String?          
+  xUrl               String?           
+  linkedinUrl        String?
+  instagramUrl       String?     
+  
+  @@map("socialMedias")
+
+}
+
+// For Political Representatives Only
+
 model PoliticalProfile {
 id      String @id @unique @default(uuid())
 userId  String  
 user    User   @relation(fields: [userId],references: [id],onDelete: Cascade)
-socialMedia SocialMedia[]
 profession  Profession[]
 education   Education[]
 politicalParty PoliticalParty[]
@@ -62,21 +76,7 @@ previousRole  PreviousRole[]
 }
 
 
-// For Political Representatives Only
-model SocialMedia {
-  id         String  @id @unique @default(uuid())
-  userId     String? // Nullable, links to a citizen user
-  user       User?   @relation(fields: [userId],references: [id],onDelete: Cascade)
-  facebookUrl        String?          
-  xUrl               String?           
-  linkedinUrl        String?
-  instagramUrl       String?     
-  politicalProfileId String?
-  politicalProfile PoliticalProfile? @relation(fields: [politicalProfileId],references: [id],onDelete: Cascade)
- 
-  @@map("socialMedias")
 
-}
 
 model ContactInfo{
   id                  String  @id @unique @default(uuid())

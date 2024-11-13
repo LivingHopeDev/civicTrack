@@ -33,7 +33,7 @@ export class ProfileService {
     return { message: "Profile image updated" };
   }
 
-  public async createCitizenProfile(
+  public async createProfile(
     userId: string,
     payload: any
   ): Promise<{ message: string }> {
@@ -48,6 +48,7 @@ export class ProfileService {
       facebookUrl,
     } = payload;
 
+    // Update the user details
     await prismaClient.user.update({
       where: { id: userId },
       data: {
@@ -58,17 +59,53 @@ export class ProfileService {
       },
     });
 
-    await prismaClient.socialMedia.create({
-      data: {
-        userId,
-        facebookUrl,
-        xUrl,
-        linkedinUrl,
-        instagramUrl,
-      },
-    });
+    // Build an array of updated social media data
+    const socialMediaData = [
+      { field: "facebookUrl", value: facebookUrl },
+      { field: "xUrl", value: xUrl },
+      { field: "linkedinUrl", value: linkedinUrl },
+      { field: "instagramUrl", value: instagramUrl },
+    ].filter((item) => item.value); // Filter out null or undefined values
+
+    if (socialMediaData.length > 0) {
+      const existingSocialMedia = await prismaClient.socialMedia.findMany({
+        where: { userId },
+      });
+
+      // Prepare data for updates and creations
+      const updateData = [];
+      const createData = [];
+
+      socialMediaData.forEach(({ field, value }) => {
+        const existing = existingSocialMedia.find((sm) => sm[field] !== null);
+
+        if (existing) {
+          updateData.push({
+            where: { id: existing.id },
+            data: { [field]: value },
+          });
+        } else {
+          createData.push({ userId, [field]: value });
+        }
+      });
+      // Perform updates individually
+      for (const { where, data } of updateData) {
+        await prismaClient.socialMedia.update({
+          where,
+          data,
+        });
+      }
+      // Perform bulk create
+
+      if (createData.length > 0) {
+        await prismaClient.socialMedia.createMany({
+          data: createData,
+        });
+      }
+    }
+
     return {
-      message: "Profile created",
+      message: "Profile saved",
     };
   }
 

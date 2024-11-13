@@ -1,14 +1,23 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "userRole" AS ENUM ('admin', 'citizen', 'polRep');
 
-  - You are about to drop the `Otp` table. If the table is not empty, all the data it contains will be lost.
+-- CreateTable
+CREATE TABLE "users" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT,
+    "role" "userRole" NOT NULL DEFAULT 'citizen',
+    "is_verified" BOOLEAN NOT NULL DEFAULT false,
+    "google_id" TEXT,
+    "image_url" TEXT,
+    "state" TEXT,
+    "local_gov" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
-*/
--- DropForeignKey
-ALTER TABLE "Otp" DROP CONSTRAINT "Otp_userId_fkey";
-
--- DropTable
-DROP TABLE "Otp";
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "otps" (
@@ -21,22 +30,23 @@ CREATE TABLE "otps" (
 );
 
 -- CreateTable
+CREATE TABLE "socialMedias" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "facebookUrl" TEXT,
+    "xUrl" TEXT,
+    "linkedinUrl" TEXT,
+    "instagramUrl" TEXT,
+
+    CONSTRAINT "socialMedias_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "politicalProfiles" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "politicalProfiles_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "socialMedias" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT,
-    "platform" TEXT NOT NULL,
-    "url" TEXT NOT NULL,
-    "politicalProfileId" TEXT NOT NULL,
-
-    CONSTRAINT "socialMedias_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -52,7 +62,6 @@ CREATE TABLE "contactInfos" (
 -- CreateTable
 CREATE TABLE "professions" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "politicalProfileId" TEXT NOT NULL,
     "position" TEXT NOT NULL,
     "term" TEXT NOT NULL,
@@ -96,13 +105,19 @@ CREATE TABLE "politicalParties" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "users_id_key" ON "users"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "otps_id_key" ON "otps"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "politicalProfiles_id_key" ON "politicalProfiles"("id");
+CREATE UNIQUE INDEX "socialMedias_id_key" ON "socialMedias"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "socialMedias_id_key" ON "socialMedias"("id");
+CREATE UNIQUE INDEX "politicalProfiles_id_key" ON "politicalProfiles"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "contactInfos_id_key" ON "contactInfos"("id");
@@ -126,13 +141,10 @@ CREATE UNIQUE INDEX "politicalParties_id_key" ON "politicalParties"("id");
 ALTER TABLE "otps" ADD CONSTRAINT "otps_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "politicalProfiles" ADD CONSTRAINT "politicalProfiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "socialMedias" ADD CONSTRAINT "socialMedias_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "socialMedias" ADD CONSTRAINT "socialMedias_politicalProfileId_fkey" FOREIGN KEY ("politicalProfileId") REFERENCES "politicalProfiles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "politicalProfiles" ADD CONSTRAINT "politicalProfiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "contactInfos" ADD CONSTRAINT "contactInfos_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

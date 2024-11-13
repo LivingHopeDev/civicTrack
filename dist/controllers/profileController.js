@@ -25,15 +25,6 @@ exports.uploadProfileImage = (0, asyncHandler_1.default)((req, res) => __awaiter
 exports.createProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.user.id;
     const role = req.user.role;
-    if (role === "citizen") {
-        const message = yield profileService.createCitizenProfile(userId, req.body);
-        res.status(201).json(message);
-    }
-    else if (role === "polRep") {
-        const message = yield profileService.createPolRepProfile(userId, req.body);
-        res.status(201).json(message);
-    }
-    else {
-        res.status(400).json({ message: "Invalid role for profile creation" });
-    }
+    const message = yield profileService.createProfile(userId, req.body);
+    res.status(201).json(message);
 }));
