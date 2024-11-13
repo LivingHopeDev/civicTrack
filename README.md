@@ -1,7 +1,5 @@
 # CivicTrack
 
-The Barb Shoe Store Inventory Management System is a comprehensive backend service designed to streamline inventory management, sales, and delivery processes for Barb Shoe Store. The system is built with Node.js and Express.js, leveraging PostgreSQL as the database to optimize stock levels, manage sales, and track deliveries. This system is intended to empower Barb Shoe Store to deliver exceptional customer experiences through efficient and effective inventory management.
-
 ## Table of Contents
 
 - [Live url](#url)

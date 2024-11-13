@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authMiddleware = void 0;
+exports.roleMiddleware = exports.authMiddleware = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
 const logger_1 = __importDefault(require("../utils/logger"));
@@ -64,19 +64,22 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.authMiddleware = authMiddleware;
-// export const adminMiddleware = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const user = req.user;
-//   if (user?.role === "ADMIN") {
-//     next();
-//   } else {
-//      res.status(403).json({
-//       status_code: "403",
-//       message: "Unauthorized",
-//     });
-// return;
-//   }
-// };
+const roleMiddleware = (allowedRoles) => {
+    return (req, res, next) => {
+        const user = req.user;
+        if (!user) {
+            return res.status(401).json({
+                status_code: "401",
+                message: "Authentication required",
+            });
+        }
+        if (!allowedRoles.includes(user.role)) {
+            return res.status(403).json({
+                status_code: "403",
+                message: "Unauthorized",
+            });
+        }
+        next();
+    };
+};
+exports.roleMiddleware = roleMiddleware;

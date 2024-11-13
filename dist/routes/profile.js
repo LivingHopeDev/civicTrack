@@ -7,4 +7,5 @@ const middlewares_1 = require("../middlewares");
 const multer_1 = require("../utils/multer");
 const profileRoute = (0, express_1.Router)();
 exports.profileRoute = profileRoute;
+profileRoute.post("/", middlewares_1.authMiddleware, controllers_1.createProfile);
 profileRoute.post("/upload", multer_1.uploadFile, middlewares_1.authMiddleware, controllers_1.uploadProfileImage);

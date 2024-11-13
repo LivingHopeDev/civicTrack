@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadProfileImage = void 0;
+exports.createProfile = exports.uploadProfileImage = void 0;
 const asyncHandler_1 = __importDefault(require("../middlewares/asyncHandler"));
 const profileService_1 = require("../services/profileService");
 const profileService = new profileService_1.ProfileService();
@@ -21,4 +21,19 @@ exports.uploadProfileImage = (0, asyncHandler_1.default)((req, res) => __awaiter
     const pixFile = req.file;
     const message = yield profileService.uploadProfileImage(userId, pixFile);
     res.status(200).json(message);
+}));
+exports.createProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user.id;
+    const role = req.user.role;
+    if (role === "citizen") {
+        const message = yield profileService.createCitizenProfile(userId, req.body);
+        res.status(201).json(message);
+    }
+    else if (role === "polRep") {
+        const profile = yield profileService.createPolRepProfile(userId, req.body);
+        res.status(201).json({ message: "Profile created" });
+    }
+    else {
+        res.status(400).json({ message: "Invalid role for profile creation" });
+    }
 }));
