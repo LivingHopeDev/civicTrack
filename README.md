@@ -1,4 +1,6 @@
-# CivicTrack
+# CivicTrack API
+
+CivicTrack is a free, open-source platform designed to help African communities keep track of their local politicians, their promises, and the projects they've completed. The CivicTrack API serves as the backend service for the web application, enabling users to access detailed information about their political representatives, their work, and achievements
 
 ## Table of Contents
 
@@ -17,35 +19,21 @@
 
 ## Live url
 
-`https://inventory-system-k1ek.onrender.com/api/v1`
+`https://civictrack.onrender.com/api/v1`
 
-## Features
+## Key Features
 
-### Admin Features
-
-- **Product Management:**
-  - Add, edit, and manage products including details such as name, description, price, stock quantity, and variations (e.g., sizes, colors).
-  - Hide products from client view.
-- **Stock Management:**
-  - Real-time tracking of product stock levels.
-  - Notifications for low stock levels.
-- **Variation Management:**
-  - Specify available product variations such as sizes, colors, and materials.
-
-### Client Features
-
-- **Product Browsing:**
-  - Browse and view detailed product information.
-  - Filter and search products by various attributes.
-- **Purchase Simulation:**
-  - Simulate the purchase process including adding products to the cart, checkout, and adding billing information (no real transactions).
-  - Cancel orders.
+User Profiles: Create and manage profiles for citizens and political representatives.
+Social Media Integration: Track and display social media links for citizens and political representatives.
+Project and Promise Tracking: Keep track of political promises and completed projects.
+Politician Information: View detailed information about politicians, including their professional background, education, party affiliation, and more.
+The API is built to facilitate transparent access to political data and make it easy for citizens to stay informed about local government activities. It ensures that the public has access to reliable and up-to-date information about their leaders, making it easier to participate in local governance and hold politicians accountable.
 
 ## Technology Stack
 
 - **Backend:** Node.js with Express.js
-- **Database:** PostgreSQL
-- **Hosting:** Clever Cloud (Backend)
+- **Database:** PostgreSQL,avien
+- **Hosting:** Render (Backend)
 
 ## Project Setup
 
@@ -62,8 +50,8 @@ Before setting up the project, ensure you have the following installed:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/LivingHopeDev/Inventory-system.git
-   cd Inventory-system
+   git clone https://github.com/LivingHopeDev/civicTrack.git
+   cd civicTrack
    ```
 
 2. **Install dependencies:**
@@ -76,16 +64,7 @@ Before setting up the project, ensure you have the following installed:
 
 Create a `.env` file in the root of the project and configure the following environment variables:
 
-```env
-PORT=yourPortNumber
-NODE_ENV=development
-AUTH_SECRET=yourSecretKey
-AUTH_EXPIRY=7d
-DATABASE_URL=postgresql://postgres:yourDbPassword@yourhost:yourDbport/dbName
-ELASTIC_EMAIL=yourElasticEmail
-ELASTIC_PASSWORD=yourElasticPassword
-
-```
+Check the `.env.example` file
 
 ### Running the Application
 
@@ -98,7 +77,7 @@ yarn run start:dev
 
 #### Access the application
 
-The server will start on the specified PORT in your .env file. If PORT is set to 8000, the application will be available at <http://localhost:8000>.
+The server will start on the specified PORT in your .env file. If PORT is set to 8070, the application will be available at <http://localhost:8070>.
 
 #### Database Migrations
 
@@ -110,7 +89,7 @@ yarn prisma migrate dev
 
 Visit the url below to view the documentation
 `https://inventory-system-k1ek.onrender.com/api/docs`
-`localhost:8000/api/docs`
+`localhost:8070/api/docs`
 
 ### Contributing
 
