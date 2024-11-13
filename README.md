@@ -23,10 +23,14 @@ CivicTrack is a free, open-source platform designed to help African communities 
 
 ## Key Features
 
-User Profiles: Create and manage profiles for citizens and political representatives.
-Social Media Integration: Track and display social media links for citizens and political representatives.
-Project and Promise Tracking: Keep track of political promises and completed projects.
-Politician Information: View detailed information about politicians, including their professional background, education, party affiliation, and more.
+- User Profiles: Create and manage profiles for citizens and political representatives.
+
+- Social Media Integration: Track and display social media links for citizens and political representatives.
+
+- Project and Promise Tracking: Keep track of political promises and completed projects.
+
+- Politician Information: View detailed information about politicians, including their professional background, education, party affiliation, and more.
+
 The API is built to facilitate transparent access to political data and make it easy for citizens to stay informed about local government activities. It ensures that the public has access to reliable and up-to-date information about their leaders, making it easier to participate in local governance and hold politicians accountable.
 
 ## Technology Stack
