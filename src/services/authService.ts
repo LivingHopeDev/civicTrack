@@ -91,7 +91,7 @@ export class AuthService implements IAuthService {
     }
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
-      throw new BadRequest("Authentication failed");
+      throw new BadRequest("Incorrect password or email");
     }
     const access_token = await generateAccessToken(user.id);
     const userResponse = {

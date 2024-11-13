@@ -25,11 +25,11 @@ export const createProfile = asyncHandler(
       );
       res.status(201).json(message);
     } else if (role === "polRep") {
-      const profile = await profileService.createPolRepProfile(
+      const message = await profileService.createPolRepProfile(
         userId,
         req.body
       );
-      res.status(201).json({ message: "Profile created" });
+      res.status(201).json(message);
     } else {
       res.status(400).json({ message: "Invalid role for profile creation" });
     }
