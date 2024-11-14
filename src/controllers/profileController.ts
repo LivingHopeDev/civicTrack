@@ -14,11 +14,26 @@ export const uploadProfileImage = asyncHandler(
   }
 );
 
-export const createProfile = asyncHandler(
+export const updateProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = req.user.id;
-    const role = req.user.role;
-    const message = await profileService.createProfile(userId, req.body);
+    const message = await profileService.updateProfile(userId, req.body);
+    res.status(200).json(message);
+  }
+);
+
+export const createPolRepProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user.id;
+    const message = await profileService.createPolRepProfile(userId, req.body);
     res.status(201).json(message);
+  }
+);
+
+export const getPolRepProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user.id;
+    const message = await profileService.getPolRepProfile(userId);
+    res.status(200).json(message);
   }
 );

@@ -67,17 +67,19 @@ export const roleMiddleware = (allowedRoles: userRole[]) => {
     const user = req.user;
 
     if (!user) {
-      return res.status(401).json({
+      res.status(401).json({
         status_code: "401",
         message: "Authentication required",
       });
+      return;
     }
 
     if (!allowedRoles.includes(user.role as userRole)) {
-      return res.status(403).json({
+      res.status(403).json({
         status_code: "403",
         message: "Unauthorized",
       });
+      return;
     }
 
     next();

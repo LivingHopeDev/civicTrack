@@ -27,6 +27,8 @@ Table otps {
   expiry DateTime [not null]
   userId String [not null]
   user users [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table socialMedias {
@@ -37,6 +39,8 @@ Table socialMedias {
   xUrl String
   linkedinUrl String
   instagramUrl String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table politicalProfiles {
@@ -47,6 +51,8 @@ Table politicalProfiles {
   education educations [not null]
   politicalParty politicalParties [not null]
   previousRole previousRoles [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table contactInfos {
@@ -55,6 +61,8 @@ Table contactInfos {
   email String [not null]
   hotline String [not null]
   user users [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table professions {
@@ -62,9 +70,11 @@ Table professions {
   politicalProfileId String [not null]
   position String [not null]
   term String [not null]
-  startDate String [not null]
-  endDate String [not null]
+  startDate DateTime [not null]
+  endDate DateTime [not null]
   politicalProfile politicalProfiles [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table educations {
@@ -75,6 +85,8 @@ Table educations {
   startDate DateTime [not null]
   endDate DateTime [not null]
   politicalProfile politicalProfiles [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table previousRoles {
@@ -84,6 +96,8 @@ Table previousRoles {
   startDate DateTime [not null]
   endDate DateTime [not null]
   politicalProfile politicalProfiles [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table politicalParties {
@@ -92,6 +106,8 @@ Table politicalParties {
   partyName String [not null]
   yearJoined Int [not null]
   politicalProfile politicalProfiles [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Enum userRole {

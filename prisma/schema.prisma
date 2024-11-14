@@ -44,7 +44,8 @@ model Otp {
     expiry   DateTime
     userId   String
     user     User     @relation( fields: [userId], references: [id], onDelete: Cascade)
-
+ createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
 @@map("otps")
 }
 
@@ -56,7 +57,8 @@ model SocialMedia {
   xUrl               String?           
   linkedinUrl        String?
   instagramUrl       String?     
-  
+   createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
   @@map("socialMedias")
 
 }
@@ -71,7 +73,8 @@ profession  Profession[]
 education   Education[]
 politicalParty PoliticalParty[]
 previousRole  PreviousRole[]
-
+ createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
 @@map("politicalProfiles")
 }
 
@@ -83,8 +86,9 @@ model ContactInfo{
   userId              String  @unique
   email               String
   hotline             String
-
   user                User @relation(fields: [userId],references: [id])
+   createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
   @@map("contactInfos")
 }
 
@@ -93,12 +97,13 @@ model Profession {
   politicalProfileId String  
   position      String
   term          String
-  startDate     String
-  endDate       String
+  startDate      DateTime
+  endDate        DateTime
 
   politicalProfile PoliticalProfile @relation(fields: [politicalProfileId], references: [id], onDelete: Cascade)
 
-
+ createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
   @@map("professions")
 }
 
@@ -111,7 +116,8 @@ model Education {
   endDate          DateTime 
   
   politicalProfile PoliticalProfile @relation(fields: [politicalProfileId], references: [id], onDelete: Cascade)
-
+ createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
   @@map("educations")
 }
 
@@ -123,6 +129,9 @@ model PreviousRole {
   endDate          DateTime 
   politicalProfile PoliticalProfile @relation(fields: [politicalProfileId], references: [id], onDelete: Cascade)
 
+
+ createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
   @@map("previousRoles")
 }
 
@@ -133,5 +142,7 @@ model PoliticalParty {
   yearJoined       Int        
   politicalProfile PoliticalProfile @relation(fields: [politicalProfileId], references: [id], onDelete: Cascade)
 
+ createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
   @@map("politicalParties")
 }

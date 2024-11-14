@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProfile = exports.uploadProfileImage = void 0;
+exports.getPolRepProfile = exports.createPolRepProfile = exports.updateProfile = exports.uploadProfileImage = void 0;
 const asyncHandler_1 = __importDefault(require("../middlewares/asyncHandler"));
 const profileService_1 = require("../services/profileService");
 const profileService = new profileService_1.ProfileService();
@@ -22,9 +22,18 @@ exports.uploadProfileImage = (0, asyncHandler_1.default)((req, res) => __awaiter
     const message = yield profileService.uploadProfileImage(userId, pixFile);
     res.status(200).json(message);
 }));
-exports.createProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.user.id;
-    const role = req.user.role;
-    const message = yield profileService.createProfile(userId, req.body);
+    const message = yield profileService.updateProfile(userId, req.body);
+    res.status(200).json(message);
+}));
+exports.createPolRepProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user.id;
+    const message = yield profileService.createPolRepProfile(userId, req.body);
     res.status(201).json(message);
+}));
+exports.getPolRepProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user.id;
+    const message = yield profileService.getPolRepProfile(userId);
+    res.status(200).json(message);
 }));

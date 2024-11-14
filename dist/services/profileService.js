@@ -45,7 +45,7 @@ class ProfileService {
             return { message: "Profile image updated" };
         });
     }
-    createProfile(userId, payload) {
+    updateProfile(userId, payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, state, local_gov, xUrl, linkedinUrl, instagramUrl, facebookUrl, } = payload;
             // Update the user details
@@ -105,50 +105,21 @@ class ProfileService {
     }
     createPolRepProfile(userId, payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { facebookUrl, linkedinUrl, xUrl, instagramUrl, profession, education, politicalParty, previousRole, } = payload;
+            const { profession, education, politicalParty, previousRole } = payload;
             // Create PoliticalProfile for the user
             const politicalProfile = yield __1.prismaClient.politicalProfile.create({
                 data: {
                     userId,
                 },
             });
-            // Handle social media links
-            const socialMediaData = [];
-            if (facebookUrl) {
-                socialMediaData.push({
-                    politicalProfileId: politicalProfile.id,
-                    facebookUrl,
-                });
-            }
-            if (linkedinUrl) {
-                socialMediaData.push({
-                    politicalProfileId: politicalProfile.id,
-                    linkedinUrl,
-                });
-            }
-            if (xUrl) {
-                socialMediaData.push({ politicalProfileId: politicalProfile.id, xUrl });
-            }
-            if (instagramUrl) {
-                socialMediaData.push({
-                    politicalProfileId: politicalProfile.id,
-                    instagramUrl,
-                });
-            }
-            // Create SocialMedia records (only if there are data)
-            if (socialMediaData.length > 0) {
-                yield __1.prismaClient.socialMedia.createMany({
-                    data: socialMediaData,
-                });
-            }
             // Create Profession records
             if (profession && profession.length > 0) {
                 const professionRecords = profession.map((item) => ({
                     politicalProfileId: politicalProfile.id,
                     position: item.position,
                     term: item.term,
-                    startDate: item.startDate,
-                    endDate: item.endDate,
+                    startDate: new Date(item.startDate),
+                    endDate: new Date(item.startDate),
                 }));
                 yield __1.prismaClient.profession.createMany({
                     data: professionRecords,
@@ -191,7 +162,24 @@ class ProfileService {
                 });
             }
             return {
-                message: "Profile created",
+                message: "Profile saved",
+            };
+        });
+    }
+    getPolRepProfile(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield __1.prismaClient.politicalProfile.findFirst({
+                where: { userId },
+                include: {
+                    profession: true,
+                    education: true,
+                    politicalParty: true,
+                    previousRole: true,
+                },
+            });
+            return {
+                message: "Profile retrieved successfully",
+                data,
             };
         });
     }
