@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPolRepProfile = exports.createPolRepProfile = exports.updateProfile = exports.uploadProfileImage = void 0;
+exports.updatePolRepProfile = exports.getPolRepProfile = exports.createPolRepProfile = exports.updateProfile = exports.uploadProfileImage = void 0;
 const asyncHandler_1 = __importDefault(require("../middlewares/asyncHandler"));
 const profileService_1 = require("../services/profileService");
 const profileService = new profileService_1.ProfileService();
@@ -35,5 +35,10 @@ exports.createPolRepProfile = (0, asyncHandler_1.default)((req, res) => __awaite
 exports.getPolRepProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.user.id;
     const message = yield profileService.getPolRepProfile(userId);
+    res.status(200).json(message);
+}));
+exports.updatePolRepProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user.id;
+    const message = yield profileService.updatePolRepProfile(userId, req.body);
     res.status(200).json(message);
 }));

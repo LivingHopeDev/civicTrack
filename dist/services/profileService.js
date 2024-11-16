@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileService = void 0;
 const __1 = require("..");
+const middlewares_1 = require("../middlewares");
 const cloudinary_1 = require("../utils/cloudinary");
 const getPublicId_1 = require("../utils/getPublicId");
 const fs_1 = __importDefault(require("fs"));
@@ -168,7 +169,7 @@ class ProfileService {
     }
     getPolRepProfile(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield __1.prismaClient.politicalProfile.findFirst({
+            const data = yield __1.prismaClient.politicalProfile.findMany({
                 where: { userId },
                 include: {
                     profession: true,
@@ -181,6 +182,90 @@ class ProfileService {
                 message: "Profile retrieved successfully",
                 data,
             };
+        });
+    }
+    updatePolRepProfile(userId, payload) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { profession, education, politicalParty, previousRole } = payload;
+            const politicalProfile = yield __1.prismaClient.politicalProfile.findFirst({
+                where: { userId },
+            });
+            if (!politicalProfile) {
+                throw new middlewares_1.ResourceNotFound("Political profile not found for this user.");
+            }
+            const politicalProfileId = politicalProfile.id;
+            // Update professions
+            yield this.syncRelatedTable("profession", profession, politicalProfileId, (item) => ({
+                politicalProfileId,
+                position: item.position,
+                term: item.term,
+                startDate: item.startDate,
+                endDate: item.endDate,
+            }));
+            // Update education
+            yield this.syncRelatedTable("education", education, politicalProfileId, (item) => ({
+                politicalProfileId,
+                institution: item.institution,
+                city: item.city,
+                startDate: item.startDate,
+                endDate: item.endDate,
+            }));
+            // Update political parties
+            yield this.syncRelatedTable("politicalParty", politicalParty, politicalProfileId, (item) => ({
+                politicalProfileId,
+                partyName: item.partyName,
+                yearJoined: item.yearJoined,
+            }));
+            // Update previous roles
+            yield this.syncRelatedTable("previousRole", previousRole, politicalProfileId, (item) => ({
+                politicalProfileId,
+                position: item.position,
+                startDate: item.startDate,
+                endDate: item.endDate,
+            }));
+            return {
+                message: "Political profile updated successfully.",
+            };
+        });
+    }
+    syncRelatedTable(tableName, records, politicalProfileId, createDataMapper) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingRecords = yield __1.prismaClient[tableName].findMany({
+                where: { politicalProfileId },
+            });
+            const existingRecordIds = existingRecords.map((record) => record.id);
+            const formRecordIds = records.map((record) => record.id).filter(Boolean);
+            // Delete records not in the form submission
+            const recordsToDelete = existingRecords.filter((record) => !formRecordIds.includes(record.id));
+            for (const record of recordsToDelete) {
+                yield __1.prismaClient[tableName].delete({ where: { id: record.id } });
+            }
+            // Process submitted records
+            for (const record of records) {
+                if (record.id) {
+                    // Check for missing fields to determine if the record should be deleted
+                    const hasEmptyFields = Object.values(record).some((value) => value === null || value === "" || value === undefined);
+                    if (hasEmptyFields) {
+                        yield __1.prismaClient[tableName].delete({
+                            where: { id: record.id },
+                        });
+                    }
+                    else {
+                        // Update the record
+                        const updateData = Object.fromEntries(Object.entries(record).filter(([key, value]) => key !== "id"));
+                        yield __1.prismaClient[tableName].update({
+                            where: { id: record.id },
+                            data: updateData,
+                        });
+                    }
+                }
+                else {
+                    // Create new record if no ID is provided
+                    yield __1.prismaClient[tableName].create({
+                        data: createDataMapper(record),
+                    });
+                }
+            }
         });
     }
 }
