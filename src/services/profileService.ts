@@ -180,10 +180,25 @@ export class ProfileService {
       message: "Profile saved",
     };
   }
+  public async getAllPolRepProfile(): Promise<{ message: string; data: any }> {
+    const data = await prismaClient.politicalProfile.findMany({
+      include: {
+        profession: true,
+        education: true,
+        politicalParty: true,
+        previousRole: true,
+      },
+    });
+
+    return {
+      message: "Profile retrieved successfully",
+      data,
+    };
+  }
   public async getPolRepProfile(
     userId: string
   ): Promise<{ message: string; data: any }> {
-    const data = await prismaClient.politicalProfile.findMany({
+    const data = await prismaClient.politicalProfile.findFirst({
       where: { userId },
       include: {
         profession: true,

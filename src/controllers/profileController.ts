@@ -38,6 +38,12 @@ export const getPolRepProfile = asyncHandler(
   }
 );
 
+export const getAllPolRepProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const message = await profileService.getAllPolRepProfile();
+    res.status(200).json(message);
+  }
+);
 export const updatePolRepProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = req.user.id;

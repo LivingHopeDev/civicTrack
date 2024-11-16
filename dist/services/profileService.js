@@ -167,9 +167,25 @@ class ProfileService {
             };
         });
     }
-    getPolRepProfile(userId) {
+    getAllPolRepProfile() {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield __1.prismaClient.politicalProfile.findMany({
+                include: {
+                    profession: true,
+                    education: true,
+                    politicalParty: true,
+                    previousRole: true,
+                },
+            });
+            return {
+                message: "Profile retrieved successfully",
+                data,
+            };
+        });
+    }
+    getPolRepProfile(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield __1.prismaClient.politicalProfile.findFirst({
                 where: { userId },
                 include: {
                     profession: true,

@@ -11,5 +11,6 @@ exports.profileRoute = profileRoute;
 profileRoute.post("/", middlewares_1.authMiddleware, (0, middlewares_1.roleMiddleware)([client_1.userRole.polRep]), controllers_1.createPolRepProfile);
 profileRoute.get("/", middlewares_1.authMiddleware, (0, middlewares_1.roleMiddleware)([client_1.userRole.polRep]), controllers_1.getPolRepProfile);
 profileRoute.put("/", middlewares_1.authMiddleware, controllers_1.updateProfile);
+profileRoute.get("/political-profile", controllers_1.getAllPolRepProfile);
 profileRoute.put("/political-profile", middlewares_1.authMiddleware, (0, middlewares_1.roleMiddleware)([client_1.userRole.polRep]), controllers_1.updatePolRepProfile);
 profileRoute.post("/upload", multer_1.uploadFile, middlewares_1.authMiddleware, controllers_1.uploadProfileImage);
