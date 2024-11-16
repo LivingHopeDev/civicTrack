@@ -4,6 +4,7 @@ import {
   updateProfile,
   uploadProfileImage,
   getPolRepProfile,
+  updatePolRepProfile,
 } from "../controllers";
 import { authMiddleware, roleMiddleware } from "../middlewares";
 import { uploadFile } from "../utils/multer";
@@ -24,6 +25,12 @@ profileRoute.get(
   getPolRepProfile
 );
 profileRoute.put("/", authMiddleware, updateProfile);
+profileRoute.put(
+  "/political-profile",
+  authMiddleware,
+  roleMiddleware([userRole.polRep]),
+  updatePolRepProfile
+);
 profileRoute.post("/upload", uploadFile, authMiddleware, uploadProfileImage);
 
 export { profileRoute };

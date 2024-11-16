@@ -37,3 +37,11 @@ export const getPolRepProfile = asyncHandler(
     res.status(200).json(message);
   }
 );
+
+export const updatePolRepProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user.id;
+    const message = await profileService.updatePolRepProfile(userId, req.body);
+    res.status(200).json(message);
+  }
+);
