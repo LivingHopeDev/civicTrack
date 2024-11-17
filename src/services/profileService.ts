@@ -1,5 +1,5 @@
 import { prismaClient } from "..";
-import { ResourceNotFound } from "../middlewares";
+import { ResourceNotFound, BadRequest } from "../middlewares";
 import { cloudinary } from "../utils/cloudinary";
 import { getPublicIdFromUrl } from "../utils/getPublicId";
 import log from "../utils/logger";
@@ -32,6 +32,31 @@ export class ProfileService {
       }
     });
     return { message: "Profile image updated" };
+  }
+
+  public async deleteProfileImage(
+    userId: string
+  ): Promise<{ message: string }> {
+    const user = await prismaClient.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user.image_url) {
+      throw new BadRequest("No profile image to delete");
+    }
+
+    const publicId = getPublicIdFromUrl(user.image_url);
+
+    if (publicId) {
+      await cloudinary.uploader.destroy(publicId);
+    }
+
+    await prismaClient.user.update({
+      where: { id: userId },
+      data: { image_url: null },
+    });
+
+    return { message: "Profile image deleted successfully" };
   }
 
   public async updateProfile(

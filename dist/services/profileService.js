@@ -46,6 +46,25 @@ class ProfileService {
             return { message: "Profile image updated" };
         });
     }
+    deleteProfileImage(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield __1.prismaClient.user.findUnique({
+                where: { id: userId },
+            });
+            if (!user.image_url) {
+                throw new middlewares_1.BadRequest("No profile image to delete");
+            }
+            const publicId = (0, getPublicId_1.getPublicIdFromUrl)(user.image_url);
+            if (publicId) {
+                yield cloudinary_1.cloudinary.uploader.destroy(publicId);
+            }
+            yield __1.prismaClient.user.update({
+                where: { id: userId },
+                data: { image_url: null },
+            });
+            return { message: "Profile image deleted successfully" };
+        });
+    }
     updateProfile(userId, payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, state, local_gov, xUrl, linkedinUrl, instagramUrl, facebookUrl, } = payload;

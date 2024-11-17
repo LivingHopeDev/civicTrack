@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProfile = exports.updatePolRepProfile = exports.getAllPolRepProfile = exports.getPolRepProfil = exports.createProfileSwagger = exports.uploadProfileImage = void 0;
+exports.updateProfile = exports.updatePolRepProfile = exports.getAllPolRepProfile = exports.getPolRepProfil = exports.createProfileSwagger = exports.deleteProfileImage = exports.uploadProfileImage = void 0;
 exports.uploadProfileImage = `
 /**
  * @swagger
@@ -60,6 +60,83 @@ exports.uploadProfileImage = `
  *                 error:
  *                   type: string
  *                   example: "Internal Server Error"
+ */
+`;
+exports.deleteProfileImage = `
+/**
+ * @swagger
+ * /api/v1/profile/image:
+ *   delete:
+ *     summary: Delete the profile image of the authenticated user
+ *     tags: [Profile]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Profile image deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Profile image deleted successfully
+ *       400:
+ *         description: Bad Request - No profile image to delete
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: No profile image to delete
+ *       401:
+ *         description: Unauthorized - Access token is missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ *       404:
+ *         description: Not Found - User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: User not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_code:
+ *                   type: number
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Server error
  */
 `;
 exports.createProfileSwagger = `

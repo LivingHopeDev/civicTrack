@@ -6,11 +6,12 @@ import {
   getPolRepProfile,
   updatePolRepProfile,
   getAllPolRepProfile,
+  deleteProfileImage,
 } from "../controllers";
 import { authMiddleware, roleMiddleware } from "../middlewares";
 import { uploadFile } from "../utils/multer";
 import { userRole } from "@prisma/client";
-import { auth } from "google-auth-library";
+
 const profileRoute = Router();
 
 profileRoute.post(
@@ -34,5 +35,6 @@ profileRoute.put(
   updatePolRepProfile
 );
 profileRoute.post("/upload", uploadFile, authMiddleware, uploadProfileImage);
+profileRoute.delete("/image", authMiddleware, deleteProfileImage);
 
 export { profileRoute };

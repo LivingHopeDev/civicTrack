@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePolRepProfile = exports.getAllPolRepProfile = exports.getPolRepProfile = exports.createPolRepProfile = exports.updateProfile = exports.uploadProfileImage = void 0;
+exports.updatePolRepProfile = exports.getAllPolRepProfile = exports.getPolRepProfile = exports.createPolRepProfile = exports.updateProfile = exports.deleteProfileImage = exports.uploadProfileImage = void 0;
 const asyncHandler_1 = __importDefault(require("../middlewares/asyncHandler"));
 const profileService_1 = require("../services/profileService");
 const profileService = new profileService_1.ProfileService();
@@ -20,6 +20,11 @@ exports.uploadProfileImage = (0, asyncHandler_1.default)((req, res) => __awaiter
     const userId = req.user.id;
     const pixFile = req.file;
     const message = yield profileService.uploadProfileImage(userId, pixFile);
+    res.status(200).json(message);
+}));
+exports.deleteProfileImage = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user.id;
+    const message = yield profileService.deleteProfileImage(userId);
     res.status(200).json(message);
 }));
 exports.updateProfile = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

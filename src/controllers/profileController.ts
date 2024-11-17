@@ -13,6 +13,14 @@ export const uploadProfileImage = asyncHandler(
     res.status(200).json(message);
   }
 );
+export const deleteProfileImage = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user.id;
+
+    const message = await profileService.deleteProfileImage(userId);
+    res.status(200).json(message);
+  }
+);
 
 export const updateProfile = asyncHandler(
   async (req: Request, res: Response) => {
